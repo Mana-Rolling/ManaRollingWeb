@@ -1,0 +1,87 @@
+.history-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.history-header h1 {
+  color: var(--primary-color);
+  margin: 0;
+  font-family: var(--font-pixel);
+}
+
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 25px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--border-color);
+  border-radius: 2px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+  padding-left: 60px;
+}
+
+.timeline-number {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  border: 3px solid var(--surface-color);
+}
+
+.timeline-content {
+  background-color: var(--surface-color);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.timeline-content h3 {
+  margin-top: 0;
+  font-family: var(--font-pixel);
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+.tags {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #333;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.tag.type-batalha { background-color: #8B0000; }
+.tag.type-missão { background-color: #006400; }
+.tag.type-conquista { background-color: #FFD700; color: #121212; }

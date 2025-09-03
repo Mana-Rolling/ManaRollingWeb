@@ -1,0 +1,58 @@
+.world-creation-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.world-creation-container h1 {
+  color: var(--primary-color);
+  /* ATUALIZAÇÃO DE FONTE */
+  font-family: var(--font-pixel);
+  font-size: 2.8rem;
+}
+
+.world-form .form-section {
+  margin-bottom: 25px;
+}
+
+.world-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.world-form input[type="text"],
+.world-form textarea {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 16px;
+}
+
+.form-columns {
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.radio-option input {
+  margin-right: 10px;
+}
+
+.submit-button {
+  padding: 12px 25px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
