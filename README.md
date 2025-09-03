@@ -4,6 +4,10 @@
 
 ## 📖 Sobre o Projeto
 
+<p align="center">
+  <img src="./assets/mana-logo.png" alt="Logo do ManaRolling" width="300"/>
+</p>
+
 ManaRolling é uma plataforma desenvolvida para modernizar e simplificar a experiência de jogar RPG de mesa. A ferramenta foi criada para centralizar todas as informações essenciais de uma campanha — desde a criação detalhada de mundos e personagens até o registro cronológico da história — em um único lugar, acessível e fácil de usar.
 
 O objetivo é substituir as anotações espalhadas, fichas de personagem em papel e a dificuldade de manter um registro coeso da narrativa, oferecendo ao Mestre e aos Jogadores as ferramentas para uma imersão completa.
