@@ -9,3 +9,31 @@
   overflow-y: auto;
   background-color: var(--background-color);
 }
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: var(--surface-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    display: block;
+  }
+  .content-area {
+    padding: 20px;
+  }
+  .menu-toggle {
+    display: block;
+  }
+}

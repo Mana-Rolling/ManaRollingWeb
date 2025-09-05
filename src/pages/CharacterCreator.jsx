@@ -1,33 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './CharacterCreator.css';
 import AttributeWidget from '../components/AttributeWidget';
 
-// A lista de retratos que acabamos de definir
-const portraitOptions = [
-  { id: 'human_warrior_m', name: 'Guerreiro Humano', imageUrl: '/portraits/human_warrior_m.png' },
-  { id: 'human_wizard_m', name: 'Mago Humano', imageUrl: '/portraits/human_wizard_m.png' },
-  { id: 'human_rogue_m', name: 'Ladino Humano', imageUrl: '/portraits/human_rogue_m.png' },
-  
-  // Elfos
-  { id: 'elf_ranger_m', name: 'Arqueiro Elfo', imageUrl: '/portraits/elf_ranger_m.png' },
-  { id: 'elf_wizard_m', name: 'Mago Elfo', imageUrl: '/portraits/elf_wizard_m.png' }, 
-  
-  // Anões
-  { id: 'dwarf_warrior_m', name: 'Guerreiro Anão', imageUrl: '/portraits/dwarf_warrior_m.png' },
-  { id: 'dwarf_cleric_m', name: 'Clérigo Anão', imageUrl: '/portraits/dwarf_cleric_m.png' },
-
-  // Meio-Orcs
-  { id: 'orc_m', name: 'Orc', imageUrl: '/portraits/orc_m.png' },
-
-  // Halflings
-  { id: 'halfling_rogue_m', name: 'Ladino Halfling', imageUrl: '/portraits/halfling_rogue_m.png' },
-  
-  // Tieflings
-  { id: 'tiefling_bard_m', name: 'Bardo Tiefling', imageUrl: '/portraits/tiefling_bard_m.png' },
-
-  // Outro
-  { id: 'other', name: 'Crie o seu', imageUrl: '/portraits/other.png' },
+const speciesOptions = [
+  { id: 'human', name: 'Humano', defaultImage: '/portraits/human_warrior_m.png' },
+  { id: 'wizard', name: 'Mago', defaultImage: '/portraits/human_wizard_m.png' },
+  { id: 'elf', name: 'Elfo', defaultImage: '/portraits/elf_ranger_m.png' },
+  { id: 'dwarf', name: 'Anão', defaultImage: '/portraits/dwarf_m.png' },
+  { id: 'rogue', name: 'Ladino', defaultImage: '/portraits/rogue_m.png' },
 ];
+
+const placeholderImage = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24' fill='%23444'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E";
 
 
 function CharacterCreator() {
@@ -36,9 +19,9 @@ function CharacterCreator() {
     forca: 8, destreza: 8, vigor: 8, inteligencia: 8, sabedoria: 8, carisma: 8,
   });
 
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPortrait, setSelectedPortrait] = useState(portraitOptions[0].imageUrl); 
+  const [selectedSpecies, setSelectedSpecies] = useState(null); 
+  const [customImage, setCustomImage] = useState(null);
+  const fileInputRef = useRef(null);
 
   const cost = (currentValue) => {
     if (currentValue < 13) return 1;
@@ -62,9 +45,24 @@ function CharacterCreator() {
     }
   };
 
-  const handleSelectPortrait = (imageUrl) => {
-    setSelectedPortrait(imageUrl);
-    setIsModalOpen(false); 
+  const handleSpeciesChange = (event) => {
+    const speciesId = event.target.value;
+    if (speciesId) {
+      const newSpecies = speciesOptions.find(s => s.id === speciesId);
+      setSelectedSpecies(newSpecies);
+      setCustomImage(null);
+    }
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setCustomImage(URL.createObjectURL(file));
+    }
+  };
+  
+  const triggerFileUpload = () => {
+    fileInputRef.current.click();
   };
 
   return (
@@ -75,17 +73,51 @@ function CharacterCreator() {
           <h3>Informações Básicas</h3>
           <input type="text" placeholder="Nome do Personagem" className="form-input"/>
           <input type="number" placeholder="Idade" className="form-input"/>
-          <input type="text" placeholder="Região Natal" className="form-input"/>
+          
+          <label htmlFor="species-select">Espécie</label>
+          <select 
+            id="species-select" 
+            className="form-input" 
+            value={selectedSpecies?.id || ""}
+            onChange={handleSpeciesChange}
+          >
+            <option value="" disabled>Escolha a espécie</option>
+            {speciesOptions.map(species => (
+              <option key={species.id} value={species.id}>
+                {species.name}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="gender-select">Gênero</label>
+          <select id="gender-select" className="form-input">
+              <option value="" disabled selected>Escolha o gênero</option>
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="nao-binario">Não-binário</option>
+              <option value="outro">Outro</option>
+          </select>
+
           <input type="text" placeholder="Classe" className="form-input"/>
         </div>
         
         <div className="portrait-panel">
           <div className="portrait-container">
-            <img src={selectedPortrait} alt="Retrato do Personagem" />
+            <img 
+              src={customImage || selectedSpecies?.defaultImage || placeholderImage} 
+              alt="Retrato do Personagem" 
+            />
           </div>
-          <button className="submit-button" onClick={() => setIsModalOpen(true)}>
-            Escolher Personagem
+          <button className="submit-button" onClick={triggerFileUpload}>
+            Fazer Upload
           </button>
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleImageUpload}
+            style={{ display: 'none' }} 
+            accept="image/png, image/jpeg"
+          />
         </div>
 
         <div className="attributes-panel">
@@ -100,27 +132,6 @@ function CharacterCreator() {
         </div>
       </div>
       <button className="submit-button main-submit">Salvar Personagem</button>
-
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Escolha uma Espécie</h2>
-            <div className="portrait-grid">
-              {portraitOptions.map((portrait) => (
-                <div 
-                  key={portrait.id} 
-                  className="portrait-option"
-                  onClick={() => handleSelectPortrait(portrait.imageUrl)}
-                >
-                  <img src={portrait.imageUrl} alt={portrait.name} />
-                  <span>{portrait.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
     </div>
   );
 }

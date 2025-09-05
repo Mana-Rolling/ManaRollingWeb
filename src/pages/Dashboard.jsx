@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'; 
 import './Dashboard.css';
 import { FaBookOpen, FaDiceD20, FaUserPlus, FaMapMarkedAlt } from 'react-icons/fa';
 
 const nextSession = {
-  date: '2025-09-06T19:00:00',
+  date: '2025-09-21T19:00:00',
   title: 'A Invasão das Catacumbas'
 };
 
@@ -13,15 +13,40 @@ const recentEvents = [
 ];
 
 const playerCharacters = [
-  { id: 1, name: 'Elyndor', class: 'Humano', level: 5, portrait: '/portraits/elyndor.png'},
-  { id: 2, name: 'Thistle', class: 'Ladina', level: 5, portrait: '/portraits/thistle.png' },
-  { id: 3, name: 'Bram', class: 'Mago', level: 5, portrait: '/portraits/bram.png' },
-  { id: 4, name: 'Lyra', class: 'Anã', level: 5, portrait: '/portraits/lyra.png' },
+    { id: 1, name: 'Elyndor', class: 'Humano', level: 5, portrait: '/portraits/elyndor.png'},
+    { id: 2, name: 'Thistle', class: 'Ladina', level: 5, portrait: '/portraits/thistle.png' },
+    { id: 3, name: 'Bram', class: 'Mago', level: 5, portrait: '/portraits/bram.png' },
+    { id: 4, name: 'Lyra', class: 'Anã', level: 5, portrait: '/portraits/lyra.png' },
 ];
 
 function Dashboard() {
-  // Lógica para o countdown pode ser adicionada aqui com useState e useEffect
-  
+
+  const calculateTimeLeft = () => {
+    const difference = +new Date(nextSession.date) - +new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        dias: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        horas: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutos: Math.floor((difference / 1000 / 60) % 60),
+        segundos: Math.floor((difference / 1000) % 60)
+      };
+    }
+
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
+
   return (
     <div className="dashboard">
       <div className="welcome-header">
@@ -33,15 +58,22 @@ function Dashboard() {
         <div className="widget next-session-widget">
           <h3>Próxima Sessão</h3>
           <h2>{nextSession.title}</h2>
-          <p>Sábado, 06 de Setembro de 2025, às 19:00</p>
+          <p>Sábado, 21 de Setembro de 2025, às 19:00</p>
+          
           <div className="countdown">
-            <span>3d</span> : <span>08h</span> : <span>15m</span>
+            {Object.keys(timeLeft).length > 0 ? (
+              <>
+                <span>{timeLeft.dias}d</span> : <span>{timeLeft.horas}h</span> : <span>{timeLeft.minutos}m</span> : <span>{timeLeft.segundos}s</span>
+              </>
+            ) : (
+              <span>Evento encerrado. Sem sessões marcadas.</span>
+            )}
           </div>
         </div>
 
         <div className="widget quick-access-widget">
-           <h3>Acesso Rápido</h3>
-           <div className="quick-access-buttons">
+            <h3>Acesso Rápido</h3>
+            <div className="quick-access-buttons">
               <button><FaDiceD20 /> Rolar Dados</button>
               <button><FaUserPlus /> Criar NPC</button>
               <button><FaMapMarkedAlt /> Ver Mapa</button>
@@ -64,24 +96,24 @@ function Dashboard() {
         
         <div className="widget notes-widget">
             <h3>Notas Rápidas</h3>
-            <textarea placeholder="Anote aqui suas ideias, ganchos para a próxima aventura, ou o nome daquele taverneiro suspeito..."></textarea>
+            <textarea placeholder="Anote aqui suas ideias, ganchos para a próxima aventura..."></textarea>
         </div>
 
         <div className="widget characters-widget">
-          <h3>Personagens dos Jogadores</h3>
-          <div className="character-cards">
-            {playerCharacters.map(char => (
-              <div className="character-card" key={char.id}>
-                <div className="character-portrait-wrapper">
-                    <img src={char.portrait} alt={char.name} />
-                </div>
-                <div className="character-info">
-                    <strong>{char.name}</strong>
-                    <span>{char.class} - Nível {char.level}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+            <h3>Personagens dos Jogadores</h3>
+            <div className="character-cards">
+                {playerCharacters.map(char => (
+                    <div className="character-card" key={char.id}>
+                        <div className="character-portrait-wrapper"> 
+                            <img src={char.portrait} alt={char.name} />
+                        </div>
+                        <div className="character-info">
+                            <strong>{char.name}</strong>
+                            <span>{char.class} - Nível {char.level}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
       </div>
     </div>
