@@ -5,7 +5,7 @@
 ## 📖 Sobre o Projeto
 
 <p align="center">
-  <img src="./assets/mana-logo.png" alt="Logo do ManaRolling" width="300"/>
+  <img src="./assets/mana-logo.png" alt="Logo do ManaRolling" width="200"/>
 </p>
 
 ManaRolling é uma plataforma desenvolvida para modernizar e simplificar a experiência de jogar RPG de mesa. A ferramenta foi criada para centralizar todas as informações essenciais de uma campanha — desde a criação detalhada de mundos e personagens até o registro cronológico da história — em um único lugar, acessível e fácil de usar.
@@ -36,11 +36,11 @@ Para rodar este projeto na sua máquina, siga os passos abaixo:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/Contanzin/ManaRolling.git](https://github.com/Contanzin/ManaRolling.git)
+    git clone (https://github.com/Mana-Rolling/ManaRollingWeb.git)
     ```
 2.  **Navegue até a pasta do projeto:**
     ```bash
-    cd ManaRolling
+    cd ManaRollingWeb
     ```
 3.  **Instale as dependências:**
     ```bash
